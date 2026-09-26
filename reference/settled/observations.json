@@ -1,0 +1,10 @@
+{
+  "route": "/trade",
+  "captured_by": "composio cloud browser (settled, post-fetch)",
+  "column_headers": [
+    "MARKET\\nPRICE\\n24H\\nVOLUME\\nMAX\\n\\n"
+  ],
+  "iframe_src_template_observed": "https://www.gmgn.cc/kline/robinhood/0xc6911796042b15d7Fa4F6CDe69e245DdCd3d9c31?theme=light&interval=15\\n",
+  "chart_note": "The chart is GMGN's. If it comes up blank or asks you to verify, GMGN does not carry this market yet.",
+  "markup_chars": 14863
+}

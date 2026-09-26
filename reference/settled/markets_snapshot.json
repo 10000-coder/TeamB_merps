@@ -1,0 +1,663 @@
+{
+  "source": "captured /trade settled market list, joined to /api/markets by index",
+  "provenance": {
+    "api": "https://www.merps.co/api/markets (public)",
+    "upstream": "DexScreener (chainId=robinhood)",
+    "captured_via": "composio cloud browser, settled state"
+  },
+  "ethPrice": 2688.66,
+  "count": 31,
+  "markets": [
+    {
+      "symbol": "VIRTUAL",
+      "name": "Virtuals Protocol",
+      "address": "0xc6911796042b15d7Fa4F6CDe69e245DdCd3d9c31",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.780100",
+        "change": "+5.19%",
+        "changeDir": "desk-up",
+        "volume": "$1,811,836",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.7811,
+        "priceEth": 0.0002905,
+        "change24h": 5.79,
+        "volume24h": 1811051.48,
+        "liquidity": 207392.62
+      }
+    },
+    {
+      "symbol": "CASHCAT",
+      "name": "Cash Cat",
+      "address": "0x020bfC650A365f8BB26819deAAbF3E21291018b4",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.196900",
+        "change": "+22.68%",
+        "changeDir": "desk-up",
+        "volume": "$1,385,618",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.1969,
+        "priceEth": 7.326e-05,
+        "change24h": 22.68,
+        "volume24h": 1385622.72,
+        "liquidity": 6085063.71
+      }
+    },
+    {
+      "symbol": "TENDIES",
+      "name": "TENDIES",
+      "address": "0x45242320DBB855EeA8Fd36804C6487E10E97FCF9",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.010760",
+        "change": "+15.14%",
+        "changeDir": "desk-up",
+        "volume": "$354,694",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.01071,
+        "priceEth": 3.986e-06,
+        "change24h": 14.66,
+        "volume24h": 355820.76,
+        "liquidity": 700856.83
+      }
+    },
+    {
+      "symbol": "HOOD",
+      "name": "TheGreenHood",
+      "address": "0xDAA8f3f54c66E9BE2c44C1B6b566cBD07229CED3",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.030390",
+        "change": "-52.35%",
+        "changeDir": "desk-down",
+        "volume": "$239,457",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.03039,
+        "priceEth": 1.128e-05,
+        "change24h": -52.35,
+        "volume24h": 239456.7,
+        "liquidity": 4560077.25
+      }
+    },
+    {
+      "symbol": "JUGGERNAUT",
+      "name": "The Juggernaut",
+      "address": "0xD7321801CAae694090694Ff55A9323139F043B88",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.006616",
+        "change": "+0.06%",
+        "changeDir": "desk-up",
+        "volume": "$209,114",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.006616,
+        "priceEth": 2.462e-06,
+        "change24h": 0.06,
+        "volume24h": 209114.17,
+        "liquidity": 482187.62
+      }
+    },
+    {
+      "symbol": "WOOD",
+      "name": "Sherwood Protocol",
+      "address": "0xF8BC08092C06dB6148114DCf82AF881F1085f92b",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.006270",
+        "change": "-14.09%",
+        "changeDir": "desk-down",
+        "volume": "$185,881",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.006273,
+        "priceEth": 2.333e-06,
+        "change24h": -14,
+        "volume24h": 185817.72,
+        "liquidity": 479974.11
+      }
+    },
+    {
+      "symbol": "HOODRAT",
+      "name": "Hoodrat",
+      "address": "0x8e62F281f282686fCa6dCB39288069a93fC23F1c",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.001274",
+        "change": "-11.30%",
+        "changeDir": "desk-down",
+        "volume": "$110,876",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.001272,
+        "priceEth": 4.732e-07,
+        "change24h": -11.37,
+        "volume24h": 110953.84,
+        "liquidity": 259946.08
+      }
+    },
+    {
+      "symbol": "ARROW",
+      "name": "Arrow",
+      "address": "0xf2915d1e3C1B0c769d0c756Ec43F1c1f6c99cD03",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.438900",
+        "change": "+3.24%",
+        "changeDir": "desk-up",
+        "volume": "$42,879",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.4389,
+        "priceEth": 0.0001634,
+        "change24h": 3.24,
+        "volume24h": 42879.47,
+        "liquidity": 246639.94
+      }
+    },
+    {
+      "symbol": "JUGGERNAUT",
+      "name": "JUGGERNAUT",
+      "address": "0x797B2ee280BBc26599Ccc1498Dc5FC17381C5101",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000007",
+        "change": "-82.42%",
+        "changeDir": "desk-down",
+        "volume": "$27,615",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 6.789e-06,
+        "priceEth": 2.523e-09,
+        "change24h": -82.42,
+        "volume24h": 27614.54,
+        "liquidity": 6803.19
+      }
+    },
+    {
+      "symbol": "JUGGERNAUT",
+      "name": "JUGGERNAUT",
+      "address": "0xEF6c075eA08eC99DD94d112e7B142a8CDbecC319",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000007",
+        "change": "-82.42%",
+        "changeDir": "desk-down",
+        "volume": "$25,075",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 6.779e-06,
+        "priceEth": 2.518e-09,
+        "change24h": -82.42,
+        "volume24h": 25074.69,
+        "liquidity": 6792.61
+      }
+    },
+    {
+      "symbol": "Robinhood",
+      "name": "HOOD",
+      "address": "0x3a430EBE6E7aB9E89B4e4BA4E3d64cBb0b9253BD",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000005",
+        "change": "+1459.00%",
+        "changeDir": "desk-up",
+        "volume": "$24,678",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 5.457e-06,
+        "priceEth": 2.023e-09,
+        "change24h": 1459,
+        "volume24h": 24678.09,
+        "liquidity": 27662.79
+      }
+    },
+    {
+      "symbol": "BTCETHUSDTBNBUSDC...",
+      "name": "Bitcoin Ethereum Tether USDt BNB USDC XRP Sol...",
+      "address": "0xAE2Df3c1749daEE721c1BFcbbFDde5D61ae7cb99",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000072",
+        "change": "+33.93%",
+        "changeDir": "desk-up",
+        "volume": "$10,813",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 7.241e-05,
+        "priceEth": 2.696e-08,
+        "change24h": 33.93,
+        "volume24h": 10813.21,
+        "liquidity": 52327.71
+      }
+    },
+    {
+      "symbol": "ROBINWOOD",
+      "name": "Robinwood",
+      "address": "0xC7A5eDBd6ABcbC40790A9036956B6C9d72BaACe8",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000016",
+        "change": "+15.00%",
+        "changeDir": "desk-up",
+        "volume": "$9,616",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 1.567e-05,
+        "priceEth": 5.833e-09,
+        "change24h": 15,
+        "volume24h": 9616.38,
+        "liquidity": 12017.26
+      }
+    },
+    {
+      "symbol": "ARROWS",
+      "name": "ARROWS",
+      "address": "0xD71b7b4e1dc16BD6938D3F235A68aa8ab1CF4F0e",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000161",
+        "change": "-9.65%",
+        "changeDir": "desk-down",
+        "volume": "$9,045",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.0001606,
+        "priceEth": 5.97e-08,
+        "change24h": -9.65,
+        "volume24h": 9045.09,
+        "liquidity": 38498.86
+      }
+    },
+    {
+      "symbol": "SHERWOOD",
+      "name": "Sherwood",
+      "address": "0xD4DC6B48Ad73EC51E71D9B8F65568f88609b92c1",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000196",
+        "change": "-10.76%",
+        "changeDir": "desk-down",
+        "volume": "$7,254",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.0001958,
+        "priceEth": 7.278e-08,
+        "change24h": -10.76,
+        "volume24h": 7254.45,
+        "liquidity": 42506.57
+      }
+    },
+    {
+      "symbol": "MEOWOOD",
+      "name": "MEOWOOD",
+      "address": "0x3018E275Da8D1acD16E7B803e74FcA9c251fd60f",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000049",
+        "change": "-9.34%",
+        "changeDir": "desk-down",
+        "volume": "$1,145",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 4.852e-05,
+        "priceEth": 1.803e-08,
+        "change24h": -9.34,
+        "volume24h": 1145.43,
+        "liquidity": 22991.62
+      }
+    },
+    {
+      "symbol": "SQUEEZE",
+      "name": "The Great Squeeze",
+      "address": "0xF444F3C77C77a33F7c8d8fcab8a1E88aFb843dA5",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000179",
+        "change": "-0.15%",
+        "changeDir": "desk-down",
+        "volume": "$749",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 0.0001794,
+        "priceEth": 6.675e-08,
+        "change24h": -0.15,
+        "volume24h": 748.95,
+        "liquidity": 177664.29
+      }
+    },
+    {
+      "symbol": "HOOD",
+      "name": "foreskin",
+      "address": "0x3F5e952b29bE5D70846FC2bA472BeA05761A769E",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000018",
+        "change": "-1.03%",
+        "changeDir": "desk-down",
+        "volume": "$63",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 1.753e-05,
+        "priceEth": 6.518e-09,
+        "change24h": -1.03,
+        "volume24h": 63.07,
+        "liquidity": 12351.31
+      }
+    },
+    {
+      "symbol": "SQUEEZE",
+      "name": "Short Squeeze Capital",
+      "address": "0xD0782C1358E20FF07A4d3b420221D78F3C160485",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000007",
+        "change": "-2.24%",
+        "changeDir": "desk-down",
+        "volume": "$62",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 7.213e-06,
+        "priceEth": 2.687e-09,
+        "change24h": -2.24,
+        "volume24h": 61.94,
+        "liquidity": 8147.66
+      }
+    },
+    {
+      "symbol": "ARROW",
+      "name": "ARROW",
+      "address": "0xfCb15aF55Ddf638769809b25b462de6DFE9Dc4c0",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000004",
+        "change": "-2.23%",
+        "changeDir": "desk-down",
+        "volume": "$60",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 3.664e-06,
+        "priceEth": 1.367e-09,
+        "change24h": -2.23,
+        "volume24h": 60.16,
+        "liquidity": 3665.32
+      }
+    },
+    {
+      "symbol": "GOLDENARROW",
+      "name": "GOLDENARROW",
+      "address": "0xF5051f07B69ef5874fb50D3f57dFb880451Fc844",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000006",
+        "change": "-1.75%",
+        "changeDir": "desk-down",
+        "volume": "$35",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 6.05e-06,
+        "priceEth": 2.25e-09,
+        "change24h": -1.75,
+        "volume24h": 35.17,
+        "liquidity": 7466.92
+      }
+    },
+    {
+      "symbol": "HOOD",
+      "name": "RobinHood",
+      "address": "0x45C83b37C5BAF4dad26f3845C28295e2DE010962",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000010",
+        "change": "+1.45%",
+        "changeDir": "desk-up",
+        "volume": "$27",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 1.034e-05,
+        "priceEth": 3.843e-09,
+        "change24h": 1.45,
+        "volume24h": 27.05,
+        "liquidity": 9769.68
+      }
+    },
+    {
+      "symbol": "HOODRAT",
+      "name": "Hoodrat",
+      "address": "0xE392a881491771430082391EFc58db55709Dd7a5",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000021",
+        "change": "-0.81%",
+        "changeDir": "desk-down",
+        "volume": "$13",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 2.062e-05,
+        "priceEth": 7.647e-09,
+        "change24h": -0.81,
+        "volume24h": 13.37,
+        "liquidity": 13883.63
+      }
+    },
+    {
+      "symbol": "SHR",
+      "name": "SHERWOOD",
+      "address": "0xe8DFEa4CE952BE956Fad851fc042C7BFb4129271",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000047",
+        "change": "+0.07%",
+        "changeDir": "desk-up",
+        "volume": "$12",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 4.702e-05,
+        "priceEth": 1.746e-08,
+        "change24h": 0.07,
+        "volume24h": 11.63,
+        "liquidity": 22563.87
+      }
+    },
+    {
+      "symbol": "HOOD",
+      "name": "HOOD4663",
+      "address": "0x499dC58539BA6869EE15b6c2a3c3c07F1AC4995F",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000011",
+        "change": "-0.11%",
+        "changeDir": "desk-down",
+        "volume": "$11",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 1.142e-05,
+        "priceEth": 4.244e-09,
+        "change24h": -0.11,
+        "volume24h": 11.47,
+        "liquidity": 9482.55
+      }
+    },
+    {
+      "symbol": "WOOD",
+      "name": "Wood Liquidity",
+      "address": "0x6635c082c14B4206751600d96Fe50428815c9fA9",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000006",
+        "change": "-1.11%",
+        "changeDir": "desk-down",
+        "volume": "$6",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 6.162e-06,
+        "priceEth": 2.29e-09,
+        "change24h": -1.11,
+        "volume24h": 5.8,
+        "liquidity": 7540.01
+      }
+    },
+    {
+      "symbol": "HOODRAT",
+      "name": "HOODRAT",
+      "address": "0x05b806651e071dea47BD214008b632ddc7970ca4",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000002",
+        "change": "+0.74%",
+        "changeDir": "desk-up",
+        "volume": "$6",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 2.451e-06,
+        "priceEth": 9.127e-10,
+        "change24h": 0.74,
+        "volume24h": 5.72,
+        "liquidity": 2451.29
+      }
+    },
+    {
+      "symbol": "JUGGERNAUT",
+      "name": "JUGGERNAUT",
+      "address": "0x38Ac3538bF1A41A056d6b08847A58415543421CB",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000003",
+        "change": "-",
+        "changeDir": "desk-up",
+        "volume": "$1",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 3.22e-06,
+        "priceEth": 1.205e-09,
+        "change24h": 0,
+        "volume24h": 0.51,
+        "liquidity": 0.69
+      }
+    },
+    {
+      "symbol": "RAT",
+      "name": "HOODRAT",
+      "address": "0xB042D352Fc8D4A89ccb9D8e4640175DB2E58a120",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000009",
+        "change": "+0.08%",
+        "changeDir": "desk-up",
+        "volume": "$0",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 8.772e-06,
+        "priceEth": 3.229e-09,
+        "change24h": 0.08,
+        "volume24h": 0.06,
+        "liquidity": 8682.82
+      }
+    },
+    {
+      "symbol": "JUGGERNAUT",
+      "name": "JUGGERNAUT",
+      "address": "0x12D05d5774e566C1b85dd9e8423792047fBfae8C",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000005",
+        "change": "-",
+        "changeDir": "desk-up",
+        "volume": "$0",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 4.636e-06,
+        "priceEth": 1.723e-09,
+        "change24h": 0,
+        "volume24h": 0,
+        "liquidity": 3477.42
+      }
+    },
+    {
+      "symbol": "JUGGERNAUT",
+      "name": "JUGGERNAUT",
+      "address": "0xe58b146618195cC8881bec44B9e30c9Ca4D0C977",
+      "marketType": "memecoin",
+      "maxLeverage": 5,
+      "captured": {
+        "price": "$0.000005",
+        "change": "-",
+        "changeDir": "desk-up",
+        "volume": "$0",
+        "leverage": "5x"
+      },
+      "api": {
+        "priceUsd": 4.633e-06,
+        "priceEth": 1.723e-09,
+        "change24h": 0,
+        "volume24h": 0,
+        "liquidity": 3475.23
+      }
+    }
+  ]
+}

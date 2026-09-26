@@ -1,0 +1,68 @@
+{
+  "source": "/home/daytona/rakazo-home/shared/TeamB_merps/reference",
+  "out": "/home/daytona/rakazo-home/shared/TeamB_merps/reference/site",
+  "pages": [
+    {
+      "page": "index.html",
+      "bytes": 217240,
+      "scripts_dropped": 11
+    },
+    {
+      "page": "list-token.html",
+      "bytes": 62214,
+      "scripts_dropped": 13
+    },
+    {
+      "page": "portfolio.html",
+      "bytes": 60183,
+      "scripts_dropped": 10
+    },
+    {
+      "page": "trade-options.html",
+      "bytes": 61930,
+      "scripts_dropped": 10
+    },
+    {
+      "page": "trade.html",
+      "bytes": 61435,
+      "scripts_dropped": 10
+    }
+  ],
+  "stylesheets": [
+    "0rawm0zjs07vl.css",
+    "2rcuj_8zdeykn.css"
+  ],
+  "fonts_localized": [
+    "SuisseIntlMono_Regular-s.30eez2cnti033.woff2",
+    "SuisseIntl_BookItalic-s.2sno-h6f7j7oi.woff2",
+    "SuisseIntl_Book_3-s.2gs6p4k-prhqc.woff2",
+    "SuisseIntl_Italic-s.2v9__hjqxoyof.woff2",
+    "SuisseIntl_Regular_2-s.0q_h9x_e1ydmp.woff2",
+    "SuisseIntl_SemiBold-s.3rcxbt9l2d5df.woff2",
+    "SuisseIntl_SemiBoldItalic-s.2bc_hgqxv7--3.woff2"
+  ],
+  "fonts_expected": [
+    "SuisseIntlMono_Regular-s.30eez2cnti033.woff2",
+    "SuisseIntl_BookItalic-s.2sno-h6f7j7oi.woff2",
+    "SuisseIntl_Book_3-s.2gs6p4k-prhqc.woff2",
+    "SuisseIntl_Italic-s.2v9__hjqxoyof.woff2",
+    "SuisseIntl_Regular_2-s.0q_h9x_e1ydmp.woff2",
+    "SuisseIntl_SemiBold-s.3rcxbt9l2d5df.woff2",
+    "SuisseIntl_SemiBoldItalic-s.2bc_hgqxv7--3.woff2"
+  ],
+  "unresolved_assets": [],
+  "route_links": [
+    "/list-token",
+    "/portfolio",
+    "/trade",
+    "/trade/options"
+  ],
+  "notes": [
+    "index.html: unshipped js refs ['0h3b5g8_u9es3.js', '3v8473dfdpzi1.js']",
+    "list-token.html: unshipped js refs ['0c15gt2llluxb.js', '1hrcx48n43rb6.js', '2p0fgu_xk-h7c.js', '2r-drklmnsl8t.js', '2w578cf06cqk-.js', '3v8473dfdpzi1.js']",
+    "portfolio.html: unshipped js refs ['1hrcx48n43rb6.js', '3qkzkdvzl8_sl.js', '3v8473dfdpzi1.js']",
+    "trade-options.html: unshipped js refs ['1hrcx48n43rb6.js', '3v8473dfdpzi1.js', '43gcvzzh7l_pz.js']",
+    "trade.html: unshipped js refs ['1hrcx48n43rb6.js', '3v8473dfdpzi1.js', '410-6j5gz8rd4.js']"
+  ],
+  "fonts_unused": []
+}
