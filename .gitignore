@@ -3,4 +3,5 @@ dist/
 .DS_Store
 reference/site/
 reference/screenshots/
+build/
 __pycache__/

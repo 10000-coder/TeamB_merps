@@ -13,7 +13,11 @@ What it does
   * keeps the tiny inline theme script so light/dark still work via localStorage
   * keeps every inline <style> (page-scoped CSS lives there)
   * rewrites /_next/... asset refs, favicons and cross-origin font URLs to local paths
-  * verifies that every path it writes actually exists on disk
+  * rewrites root-absolute asset refs (`/logo.png` in an inline `mask-image:url()`)
+    to relative ones, because the copy is served from a document root that is NOT
+    the real site root — this is how the hero logo silently 404'd in the baseline
+  * verifies that every path it writes actually exists on disk, and treats an
+    unresolved asset-looking ref as an ERROR (exit 1), not a note
 
 Usage:
   python3 build_offline.py --ref reference --out reference/site
@@ -39,6 +43,11 @@ FAVICON_MAP = {
     '/icon.png': 'img/icon.png',
     '/apple-icon.png': 'img/apple-icon.png',
 }
+# Root-absolute asset reference: `url(/logo.png)`, src="/x.png", href='/y.ico'
+ROOT_ASSET_RE = re.compile(
+    r'(["\'(])/([A-Za-z0-9_@%.-]+\.(?:png|jpe?g|webp|gif|svg|ico|woff2?|ttf|otf|mp4))(?=[)"\'])'
+)
+ASSET_EXT_RE = re.compile(r'\.(?:png|jpe?g|webp|gif|svg|ico|woff2?|ttf|otf|mp4|css|js)$', re.I)
 
 
 def sha256(path):
@@ -113,6 +122,7 @@ def main():
     rdir = os.path.join(ref, args.rendered)
     adir = os.path.join(ref, args.assets)
     fonts_src = os.path.join(adir, 'fonts')
+    root_src = os.path.join(adir, 'root')
 
     if os.path.isdir(out_dir):
         shutil.rmtree(out_dir)
@@ -121,7 +131,17 @@ def main():
     if os.path.isdir(os.path.join(adir, 'img')):
         shutil.copytree(os.path.join(adir, 'img'), os.path.join(out_dir, 'img'))
 
+    # assets that the real site serves from its document root
+    root_copied = []
+    if os.path.isdir(root_src):
+        for name in sorted(os.listdir(root_src)):
+            src = os.path.join(root_src, name)
+            if os.path.isfile(src):
+                shutil.copy2(src, os.path.join(out_dir, name))
+                root_copied.append(name)
+
     pages, notes, used_fonts, chunk_files = [], [], set(), set()
+    unresolved_root = []
     for fn in sorted(os.listdir(rdir)):
         if not fn.endswith('.html'):
             continue
@@ -148,6 +168,16 @@ def main():
         for remote, local in FAVICON_MAP.items():
             html = html.replace('href="%s"' % remote, 'href="%s"' % local)
 
+        # root-absolute assets -> relative (document root of the copy is not the site root)
+        def root_ref(m):
+            q, name = m.group(1), m.group(2)
+            if os.path.exists(os.path.join(out_dir, name)):
+                return q + name
+            unresolved_root.append({'page': fn, 'ref': '/' + name})
+            return m.group(0)
+
+        html = ROOT_ASSET_RE.sub(root_ref, html)
+
         # anything still pointing at /_next/ is a chunk we did not archive
         leftover = sorted(x for x in set(NEXT_CHUNK_RE.findall(html)) if x.endswith('.js'))
         if leftover:
@@ -168,19 +198,27 @@ def main():
             if os.path.exists(os.path.join(out_dir, r)):
                 continue
             bare = r.split('#')[0].split('?')[0]
-            if bare.startswith('/') and '.' not in bare.rsplit('/', 1)[-1]:
+            if bare.startswith('/') and not ASSET_EXT_RE.search(bare):
                 routes.append({'page': p['page'], 'route': bare})   # internal nav link
             else:
                 missing.append({'page': p['page'], 'ref': r})
+        # css url() refs too
+        for r in set(re.findall(r'url\(([^)"\']+)\)', h)):
+            if r.startswith(('http', 'data:', '#')):
+                continue
+            if not os.path.exists(os.path.join(out_dir, r)):
+                missing.append({'page': p['page'], 'ref': r, 'via': 'css-url'})
 
     report = {
         'source': ref,
         'out': out_dir,
         'pages': pages,
+        'root_assets': root_copied,
         'stylesheets': sorted(chunk_files),
         'fonts_localized': sorted(used_fonts),
         'fonts_expected': sorted(os.listdir(fonts_src)) if os.path.isdir(fonts_src) else [],
         'unresolved_assets': missing,
+        'unresolved_root_assets': unresolved_root,
         'route_links': sorted({x['route'] for x in routes}),
         'notes': notes,
     }
@@ -193,11 +231,16 @@ def main():
     print('  pages      : %d' % len(pages))
     for p in pages:
         print('    %-20s %7d bytes, %d script(s) dropped' % (p['page'], p['bytes'], p['scripts_dropped']))
+    print('  root assets: %s' % (root_copied or '(none)'))
     print('  stylesheets: %d' % len(chunk_files))
     print('  fonts      : %d localized, %d unused, %d expected'
           % (len(used_fonts), len(report.get('fonts_unused', [])),
              len(report.get('fonts_expected', []))))
     print('  route links: %s' % sorted({x['route'] for x in routes}))
+    if unresolved_root:
+        print('  ROOT ASSETS NOT RESOLVED: %d' % len(unresolved_root))
+        for m in unresolved_root[:8]:
+            print('    %s -> %s' % (m['page'], m['ref']))
     if missing:
         print('  UNRESOLVED ASSETS: %d' % len(missing))
         for m in missing[:8]:
@@ -206,7 +249,7 @@ def main():
         print('  notes:')
         for n in notes[:6]:
             print('    ' + n)
-    return 1 if missing else 0
+    return 1 if (missing or unresolved_root) else 0
 
 
 if __name__ == '__main__':

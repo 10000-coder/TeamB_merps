@@ -4,29 +4,33 @@
   "pages": [
     {
       "page": "index.html",
-      "bytes": 217240,
+      "bytes": 217228,
       "scripts_dropped": 11
     },
     {
       "page": "list-token.html",
-      "bytes": 62214,
+      "bytes": 62206,
       "scripts_dropped": 13
     },
     {
       "page": "portfolio.html",
-      "bytes": 60183,
+      "bytes": 60175,
       "scripts_dropped": 10
     },
     {
       "page": "trade-options.html",
-      "bytes": 61930,
+      "bytes": 61922,
       "scripts_dropped": 10
     },
     {
       "page": "trade.html",
-      "bytes": 61435,
+      "bytes": 61427,
       "scripts_dropped": 10
     }
+  ],
+  "root_assets": [
+    "logo.png",
+    "og.png"
   ],
   "stylesheets": [
     "0rawm0zjs07vl.css",
@@ -51,6 +55,7 @@
     "SuisseIntl_SemiBoldItalic-s.2bc_hgqxv7--3.woff2"
   ],
   "unresolved_assets": [],
+  "unresolved_root_assets": [],
   "route_links": [
     "/list-token",
     "/portfolio",

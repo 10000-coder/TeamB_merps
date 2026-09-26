@@ -32,6 +32,10 @@ import sys
 
 LOCAL_ASSET_RE = re.compile(
     r'''(?:src|href|srcset|poster|data-src)\s*=\s*["']([^"'>\s]+)''', re.I)
+# Assets referenced from inline styles / <style> via url(...). Missed by the
+# attribute-only pattern above - which is how a mask-image:url(/logo.png) hero
+# logo went missing while this gate still reported "all assets resolve".
+CSS_URL_RE = re.compile(r'''url\(\s*["']?([^"')]+)["']?\s*\)''', re.I)
 ASSET_LIKE_RE = re.compile(
     r'\.(?:png|jpe?g|webp|avif|gif|svg|ico|bmp|woff2?|ttf|otf|eot|css|mp4|webm|js|mjs'
     r'|json|txt|xml|webmanifest)$', re.I)
@@ -98,7 +102,14 @@ def resolve(ref, href, public_root=None):
             if os.path.exists(c):
                 return c
         return 'MISSING:' + href
-    return None
+    # bare filename, e.g. url(logo.png) in an inline style. CSS resolves it against
+    # the page URL, which for a captured capture served at / is the document root.
+    bases = ([public_root] if public_root else []) + [
+        os.path.join(ref, 'site'), os.path.join(ref, 'public'), ref]
+    for base in bases:
+        if base and os.path.exists(os.path.join(base, href)):
+            return os.path.join(base, href)
+    return 'MISSING:' + href
 
 
 def walk_data_files(ref):
@@ -235,7 +246,9 @@ def main():
     if have_site:
         with open(offline_index, encoding='utf-8', errors='replace') as f:
             html = f.read()
-        refs = sorted(set(LOCAL_ASSET_RE.findall(html)))
+        refs = sorted(set(LOCAL_ASSET_RE.findall(html))
+                    | {u for u in CSS_URL_RE.findall(html)
+                       if not u.startswith(('data:', '#'))})
         missing, hostpaths, checked, routes = [], [], 0, []
         for r in refs:
             if not ASSET_LIKE_RE.search(r.split('#')[0].split('?')[0]):

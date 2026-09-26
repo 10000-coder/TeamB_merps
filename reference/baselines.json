@@ -5,35 +5,35 @@
     "python3 tools/build_offline.py --ref reference --out reference/site",
     "bash tools/shoot_baselines.sh"
   ],
-  "note": "baselines are regenerable byte-identically; not committed to keep the repo small",
+  "note": "baselines are regenerable byte-identically; not committed to keep the repo small. Captures are deterministic: repeat runs are md5-identical.",
   "baselines": [
     {
       "file": "desktop_1440_dark.png",
       "width": 1440,
       "height": 9381,
-      "bytes": 766867,
-      "sha256": "566cf516add6c8cbccba371c5b9df11777e9695c8e25d0071ae2ff86ed20d4fd"
+      "bytes": 799655,
+      "sha256": "4863b16ebaec10228b0d6f88e74cb107b4bc9230b44cb8cdd3c79c80d7efbbea"
     },
     {
       "file": "desktop_1440_light.png",
       "width": 1440,
       "height": 9381,
-      "bytes": 765726,
-      "sha256": "bb2268a4b691fd158760cf360558997e1bbc7febc0d995e5c5200af7715b2508"
+      "bytes": 798621,
+      "sha256": "100269f0c88714e4ae80d29236bcf7130b1bde2604abd0e4ab0aa0674ad86e54"
     },
     {
       "file": "mobile_375_dark.png",
       "width": 375,
       "height": 10383,
-      "bytes": 388442,
-      "sha256": "0b5499b7776829a08a5adf7e89e474ce86016b984c3936344cc32e523f2d0f16"
+      "bytes": 405577,
+      "sha256": "fd0823875d5b13d3ea8927bb51d62f5edfe18f02b0d25d4d29b8db1902716e70"
     },
     {
       "file": "mobile_375_light.png",
       "width": 375,
       "height": 10383,
-      "bytes": 400766,
-      "sha256": "37d4cd7dc9b79d376e780c240a9670bb5dc67710f47e18e8115b5ff5a721fc0a"
+      "bytes": 417903,
+      "sha256": "0ca74c74f9692d3b57616ec5063cb6a5451ce7a8f836165028ee043cee2a7722"
     }
   ]
 }
