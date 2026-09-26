@@ -10,8 +10,8 @@ rather than estimated.
 |---|---|
 | Repo | <https://github.com/10000-coder/TeamB_merps> (`main`) |
 | Production | <https://teamb-merps.vercel.app> |
-| Deployed commit | `5d362c1f603081098f6a163cf34d782afa3326f3` |
-| Deployment | `dpl_6k8do8YjEAD3CCyoHGu6PkMwjY9B` (target: production, root `app`) |
+| Deployed commit | `615d27031e31b91452e1ef15a1fd4f9fa203f973` (the motion build) |
+| Deployment | `dpl_8S3XafxRyfRZEFarWpPsCmrx2xqx` (target: production, root `app`) |
 | Vercel project | `teamb-merps` / `prj_bIFdpmhvPsb64cyNtpMcA8LP7Q1u` |
 
 Live check, run against the deployed URL:
@@ -25,11 +25,17 @@ Live check, run against the deployed URL:
   /list-token      200
 == assets (live vs locally verified dist) ==
   identical: 23/23   mismatches: 0
-  index-fWyyhYVU.js sha256=6317876bd81ccdc17315 live_match=True
+  index-JOTZnwNw.js 463924 bytes, live_match=True
 ```
 
 The served JavaScript is byte-identical to the bundle measured below, so the numbers
 in this document describe what is actually running.
+
+> Re-measured after the motion pass (2026-09-26): production serves
+> `assets/index-JOTZnwNw.js`, **463 924 bytes**, byte-identical to the locally verified
+> build, and all 5 routes return 200. An earlier deployment pinned `5d362c1`
+> (`dpl_6k8do8YjEAD3CCyoHGu6PkMwjY9B`) is superseded. See `docs/MOTION.md` for the
+> parity figures that changed when motion was switched on.
 
 ## Reproduce
 
