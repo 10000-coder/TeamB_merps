@@ -1,0 +1,178 @@
+{
+  "source": "https://www.merps.co/",
+  "captured_utc": "2026-09-26T04:30Z",
+  "count": 34,
+  "total_bytes": 2034164,
+  "assets": [
+    {
+      "path": "assets/next/0c0hxoamwjsbw.js",
+      "bytes": 112594,
+      "sha256": "0973c1d64c88adc8e3c950410cb58b288f72118d5965b78049438deb8f2f9683"
+    },
+    {
+      "path": "assets/next/0c15gt2llluxb.js",
+      "bytes": 151877,
+      "sha256": "0217b1f00f0c0e27cf3645ea111b80155e1b788f862febb5c74f93749fb12d5f"
+    },
+    {
+      "path": "assets/next/0h3b5g8_u9es3.js",
+      "bytes": 31570,
+      "sha256": "fbc3f424b9e5894cb51a7317903aca7e722fb88b0ba551d47b4105f42e13cf04"
+    },
+    {
+      "path": "assets/next/0rawm0zjs07vl.css",
+      "bytes": 8962,
+      "sha256": "3867ebed44a62185dab2515ebc167a401ebf17a860ea2331d24d169c23f289c3"
+    },
+    {
+      "path": "assets/next/1hrcx48n43rb6.js",
+      "bytes": 37744,
+      "sha256": "b3792a0b976be8f2c9fa3c0f3a8498a685e86b33259b35bd5f29b067b255c1bd"
+    },
+    {
+      "path": "assets/next/1kbt14nefgsiq.js",
+      "bytes": 16797,
+      "sha256": "49cf866bf4d0282119e51835114325403f28e53fd0bccb63dde7ba3114a8e9fb"
+    },
+    {
+      "path": "assets/next/2p0fgu_xk-h7c.js",
+      "bytes": 3745,
+      "sha256": "6392f7a663cd5ab8a7e0c544d74bcad0be8d99981116c0c329bd92bbc3230874"
+    },
+    {
+      "path": "assets/next/2r-drklmnsl8t.js",
+      "bytes": 35484,
+      "sha256": "932e33a2d78e4d190fcb54ac91da84710b38589695b18679a4aa6b11192c3749"
+    },
+    {
+      "path": "assets/next/2rcuj_8zdeykn.css",
+      "bytes": 56756,
+      "sha256": "93bb8a60e7a72b604f27a68b30108a7cf24de0c9f2cc031c905e151f6be62491"
+    },
+    {
+      "path": "assets/next/2w578cf06cqk-.js",
+      "bytes": 109570,
+      "sha256": "c3b8675e6f9170aceadacfa1cb1d7a8c64f6a1ac446ad4d61d0ab90bd6aa24d0"
+    },
+    {
+      "path": "assets/next/3e0zgdt0vy6wa.js",
+      "bytes": 229612,
+      "sha256": "e153814e80d25dfcda7a2563114cc317dc083e6d1184152f7f27c15911dd655c"
+    },
+    {
+      "path": "assets/next/3qkzkdvzl8_sl.js",
+      "bytes": 10333,
+      "sha256": "936466dc0e58598dcbdaa6b49edeb508e164317068fde5f7abcea784563f98fe"
+    },
+    {
+      "path": "assets/next/3v8473dfdpzi1.js",
+      "bytes": 31263,
+      "sha256": "a02c653a04bc5318e89430b35a025c196b1b600e4fc51880b9a22d2fd84e7ef0"
+    },
+    {
+      "path": "assets/next/410-6j5gz8rd4.js",
+      "bytes": 14943,
+      "sha256": "32f53552e07f68913477092dc4461985643abb84e726e4c68c788a963628ad0b"
+    },
+    {
+      "path": "assets/next/423o_ii61i1wc.js",
+      "bytes": 183131,
+      "sha256": "bd25f6e0b746b3ef710912be6cd77e9effd1aecff49216f76cd74a2298f3c274"
+    },
+    {
+      "path": "assets/next/43gcvzzh7l_pz.js",
+      "bytes": 15316,
+      "sha256": "b9b56062758363bf625a85fbc605d759ab363e8a08125b0dc7133db9336fa31f"
+    },
+    {
+      "path": "assets/next/turbopack-012poobylc130.js",
+      "bytes": 9718,
+      "sha256": "a970bce9b79c68d6fb7f8658714624ca9ffc8e25da4094e4df8e061e7d41e118"
+    },
+    {
+      "path": "assets/fonts/SuisseIntlMono_Regular-s.30eez2cnti033.woff2",
+      "bytes": 12968,
+      "sha256": "375761db5c718375e3f85f4341465191adaa136ec82ec8cfae84e19afdb55a21"
+    },
+    {
+      "path": "assets/fonts/SuisseIntl_BookItalic-s.2sno-h6f7j7oi.woff2",
+      "bytes": 45120,
+      "sha256": "844051d9a8278ac889768e999f8278a428185a6de0a21abf997c25bdcf230b14"
+    },
+    {
+      "path": "assets/fonts/SuisseIntl_Book_3-s.2gs6p4k-prhqc.woff2",
+      "bytes": 42984,
+      "sha256": "3fc361b057050a6555317ceee6c4ec6c938ffb6b11bb057009e6deeeee424749"
+    },
+    {
+      "path": "assets/fonts/SuisseIntl_Italic-s.2v9__hjqxoyof.woff2",
+      "bytes": 43412,
+      "sha256": "9f801d9d69108cd20c4a8297dd1ed726b337f732e36bc4861e0e077dd7b754b0"
+    },
+    {
+      "path": "assets/fonts/SuisseIntl_Regular_2-s.0q_h9x_e1ydmp.woff2",
+      "bytes": 66508,
+      "sha256": "807e7b3151d759bcf36b2f3fcd838be705aae5b9a5af18c4c27de35755233183"
+    },
+    {
+      "path": "assets/fonts/SuisseIntl_SemiBold-s.3rcxbt9l2d5df.woff2",
+      "bytes": 69248,
+      "sha256": "6f394a8403b4c3665c10e0a2f089b71221ad2ac974014b9b2cf18a7d19297782"
+    },
+    {
+      "path": "assets/fonts/SuisseIntl_SemiBoldItalic-s.2bc_hgqxv7--3.woff2",
+      "bytes": 43960,
+      "sha256": "60563e46e89057acb648e66eed7283db284d1bcd87ec56035ef4f26b5b1a836e"
+    },
+    {
+      "path": "assets/img/android-chrome-192.png",
+      "bytes": 7059,
+      "sha256": "b3c2cfe8bf309861b83b5eda15ffb84fa48497d8905e78080dad5b272def0e83"
+    },
+    {
+      "path": "assets/img/apple-icon.png",
+      "bytes": 7552,
+      "sha256": "751b5bdcdd99956d13a8b8bebbacf2c769c6439a89f76a2bf57e80b6a65bd898"
+    },
+    {
+      "path": "assets/img/favicon-32.png",
+      "bytes": 933,
+      "sha256": "14e2d6dce6da2c53d51a3d59ca6656a4c93efd255fda8ab6523fc761800dfdfa"
+    },
+    {
+      "path": "assets/img/favicon.ico",
+      "bytes": 5374,
+      "sha256": "74440018925fda09bcea34464fde73040b7bf36ac566dced1d6b2a83da4afc61"
+    },
+    {
+      "path": "assets/img/icon.png",
+      "bytes": 42142,
+      "sha256": "a9dc9072b61a74fa1fa93753d275ceb9461de5672ee0f19014c00821aa7b25da"
+    },
+    {
+      "path": "rendered/index.html",
+      "bytes": 337459,
+      "sha256": "5388404b28db234505bec70021dc7a5fe31f8f2e07c6cd738060a3bf3faddd82"
+    },
+    {
+      "path": "rendered/list-token.html",
+      "bytes": 63461,
+      "sha256": "3a915f05178a1211a47efc5f370947ce537f80923cc86c56854f50abf37d0077"
+    },
+    {
+      "path": "rendered/portfolio.html",
+      "bytes": 61190,
+      "sha256": "2475550f30d344c65bb03ef8c88bbdb1f0e1ff5972efa033758525e0109cf457"
+    },
+    {
+      "path": "rendered/trade-options.html",
+      "bytes": 62937,
+      "sha256": "00d8f25ba328b291dc67d81f39baac7754bdf764abfe92aab702c34ef0ea9117"
+    },
+    {
+      "path": "rendered/trade.html",
+      "bytes": 62442,
+      "sha256": "8deebb0ea6c67abcfef201dfbd6688825ed5b88a3ee447ebc10f544238140f26"
+    }
+  ]
+}
