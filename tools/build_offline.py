@@ -7,9 +7,12 @@ deterministic and self-contained: given `reference/rendered/*.html` plus
 `reference/assets/`, it produces `reference/site/` that renders with no network.
 
 What it does
-  * drops the framework <script> tags (Next/Turbopack chunks + RSC flight payload)
-    because the prerendered DOM is already complete — hydration is what we are
-    replacing, not what we are measuring
+  * drops the framework <script> tags (Next/Turbopack chunks + RSC flight payload),
+    because the copy is measured without JavaScript
+  * then applies POST_MOUNT_RULES: the handful of values the site's own JavaScript
+    overwrites unconditionally on mount. The server-rendered DOM is NOT the same as
+    the settled view, and assuming otherwise silently costs ~4.6% of geometry
+    accuracy -- see that constant for the evidence
   * keeps the tiny inline theme script so light/dark still work via localStorage
   * keeps every inline <style> (page-scoped CSS lives there)
   * rewrites /_next/... asset refs, favicons and cross-origin font URLs to local paths
@@ -108,6 +111,45 @@ def strip_scripts(html):
     return out, dropped
 
 
+# ---------------------------------------------------------------------------
+# Post-mount normalization.
+#
+# The copy runs no JavaScript, so any value the site's own effects overwrite on
+# mount stays at whatever the server sent. Each rule below therefore has to be
+# justified from the shipped bundle, and named, rather than blanket-rewriting
+# every baked runtime value.
+#
+# JUSTIFIED (rule 1): the "How it works" caption stack. The server renders it at
+# its last stage; the mount effect recomputes the stage from viewport geometry and,
+# at the top of the page, selects index 0. See build_offline's docstring.
+#
+# NOT rewritten, deliberately: the digit rollers, the hero word roller and the
+# clock. The site's effects either land on the same value (the roller's target is
+# the digit the server already rendered) or are driven by timers, so rewriting them
+# would be fitting the baseline to the port rather than to the site.
+# ---------------------------------------------------------------------------
+POST_MOUNT_RULES = [
+    {
+        'name': 'stage-stack-to-first-stage',
+        'pattern': re.compile(
+            r'(<div class="absolute inset-x-0 top-0 flex flex-col" '
+            r'style="height:\d+%;transform:translateY\()-\d+%\)(")'),
+        'replacement': r'\g<1>-0em)\g<2>',
+        'why': "server renders the last stage; the mount effect selects stage 0 at "
+               "scroll top and writes translateY(-0em)",
+    },
+]
+
+
+def apply_post_mount_rules(html):
+    """Return (html, [{rule, count}]) -- each rule reports how often it fired."""
+    hits = []
+    for rule in POST_MOUNT_RULES:
+        html, n = rule['pattern'].subn(rule['replacement'], html)
+        hits.append({'rule': rule['name'], 'count': n})
+    return html, hits
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument('--ref', default='reference')
@@ -183,10 +225,16 @@ def main():
         if leftover:
             notes.append('%s: unshipped js refs %s' % (fn, leftover))
 
+        html, rule_hits = apply_post_mount_rules(html)
+        for h in rule_hits:
+            if h['count']:
+                notes.append('%s: post-mount rule %s x%d' % (fn, h['rule'], h['count']))
+
         out_name = 'index.html' if fn == 'index.html' else fn
         with open(os.path.join(out_dir, out_name), 'w', encoding='utf-8') as f:
             f.write(html)
-        pages.append({'page': out_name, 'bytes': len(html), 'scripts_dropped': dropped})
+        pages.append({'page': out_name, 'bytes': len(html), 'scripts_dropped': dropped,
+                      'post_mount_rules': rule_hits})
 
     # integrity: every relative path the pages reference must exist under out_dir
     missing, routes = [], []

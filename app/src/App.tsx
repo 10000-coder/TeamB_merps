@@ -1,7 +1,8 @@
 import { useEffect } from 'react';
 import type { RouteEntry } from './gen/routes';
 import { findRoute, useRoutePath } from './lib/router';
-import { closeMenu } from './lib/ui';
+import { closeMenu, useMenuOpen } from './lib/ui';
+import { applyMenuState, initRouteMotion } from './lib/motion';
 import { DeskProvider } from './desk/DeskContext';
 import { MarketList } from './desk/MarketList';
 import { ChartPanel } from './desk/ChartPanel';
@@ -34,6 +35,7 @@ function Body({ entry }: { entry: RouteEntry }) {
 export function App() {
   const path = useRoutePath();
   const entry = findRoute(path) ?? findRoute('/')!;
+  const menuOpen = useMenuOpen();
 
   useEffect(() => {
     document.title = entry.title;
@@ -41,6 +43,14 @@ export function App() {
     if (meta) meta.setAttribute('content', entry.description);
     closeMenu();
   }, [entry]);
+
+  // Per-route animation, re-armed on navigation exactly as a page load would.
+  useEffect(() => initRouteMotion(), [entry]);
+
+  // The reference drives the hamburger and the scroll lock imperatively.
+  useEffect(() => {
+    applyMenuState(menuOpen);
+  }, [menuOpen]);
 
   return (
     <DeskProvider>

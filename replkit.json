@@ -18,5 +18,12 @@
   },
   "cand_spa_fallback": false,
   "theme_key": "merps-theme",
-  "pages": ["/", "/trade", "/trade/options", "/portfolio", "/list-token"]
+  "pages": [
+    "/",
+    "/trade",
+    "/trade/options",
+    "/portfolio",
+    "/list-token"
+  ],
+  "settle": true
 }

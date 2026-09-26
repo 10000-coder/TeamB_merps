@@ -5,6 +5,10 @@ import { useSyncExternalStore } from 'react';
  * reference does it. The bootstrap script in index.html applies the stored value
  * before paint; this module owns changes after that, and notifies subscribers so
  * anything derived from the theme (the GMGN embed URL, for one) re-renders.
+ *
+ * Switching also runs the reference's own `theme-sweep-*` view transition: the
+ * class picks the sweep direction (ltr when going dark, rtl when going light) and
+ * the CSS in the vendored stylesheet draws it with `::view-transition-new(root)`.
  */
 const KEY = 'merps-theme';
 export type Theme = 'light' | 'dark';
@@ -32,8 +36,23 @@ export function setTheme(t: Theme) {
   listeners.forEach((f) => f());
 }
 
+type ViewTransitionDoc = Document & {
+  startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+};
+
 export function toggleTheme() {
-  setTheme(currentTheme() === 'dark' ? 'light' : 'dark');
+  const html = document.documentElement;
+  const next: Theme = currentTheme() === 'dark' ? 'light' : 'dark';
+  const sweep = next === 'dark' ? 'theme-sweep-ltr' : 'theme-sweep-rtl';
+  const apply = () => setTheme(next);
+
+  const doc = document as ViewTransitionDoc;
+  if (typeof doc.startViewTransition !== 'function') {
+    apply();
+    return;
+  }
+  html.classList.add(sweep);
+  doc.startViewTransition(apply).finished.finally(() => html.classList.remove(sweep));
 }
 
 export function useTheme(): Theme {

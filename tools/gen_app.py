@@ -148,21 +148,38 @@ def emit_element(el, depth, out):
 SX_CALL_RE = re.compile(r'sx\(("(?:[^"\\]|\\.)*")\)')
 
 
-def menu_open_style(closed: str) -> str:
+# The animated menu items all declare this exact transition, with the `0ms` half of
+# the reference's stagger formula (`open ? 120 + 70 * i : 0`).
+MENU_STAGGER_SRC = ('transition:opacity 500ms ease 0ms, '
+                    'transform 600ms cubic-bezier(0.16, 1, 0.3, 1) 0ms')
+
+
+def menu_open_style(closed: str, delay_ms=None) -> str:
     """Derive the OPEN state from the captured CLOSED state.
 
     The capture only ever holds the menu closed, so the open values must come from
     somewhere. Rather than invent an animation, this completes the one the markup
     already declares: the closed state is the *start* of an entrance transition
     (`opacity:0`, `transform:translateY(...)`, `visibility:hidden`), so the open
-    state is that same declaration with the entrance finished. Transition timing is
-    left exactly as captured, including the per-link stagger delays.
+    state is that same declaration with the entrance finished.
+
+    Timings are NOT simply "as captured". The reference computes the per-item
+    entrance stagger at runtime (`120 + 70 * index` ms, `0ms` while closed) and the
+    open-state visibility delay (`0s` open, `500ms` closed) in its own menu module,
+    so the captured `0ms`/`500ms` halves are the CLOSED half of both formulas and
+    the open half has to be derived. `delay_ms` is that stagger for this item.
     """
     out = closed
     out = re.sub(r'(^|;)visibility:hidden', r'\1visibility:visible', out)
     out = re.sub(r'(^|;)pointer-events:none', r'\1pointer-events:auto', out)
     out = re.sub(r'(^|;)opacity:0(?=;|$)', r'\1opacity:1', out)
     out = re.sub(r'(^|;)transform:translateY\([^)]*\)', r'\1transform:none', out)
+    out = out.replace('visibility 0s linear 500ms', 'visibility 0s linear 0s')
+    if delay_ms is not None:
+        out = out.replace(
+            MENU_STAGGER_SRC,
+            'transition:opacity 500ms ease %dms, transform 600ms %s %dms'
+            % (delay_ms, 'cubic-bezier(0.16, 1, 0.3, 1)', delay_ms))
     return out
 
 
@@ -223,12 +240,19 @@ def apply_interaction(name, kind, src):
             src = re.sub(r'(export function \w+\([^)]*\) \{)',
                          r'\1\n  const { tab, setTab, query, setQuery } = useDesk();', src, count=1)
     if kind == 'menu':
+        seq = [0]
+
         def sub(m):
             closed = json.loads(m.group(1))
+            delay = None
+            if MENU_STAGGER_SRC in closed:
+                delay = 120 + 70 * seq[0]
+                seq[0] += 1
             return 'sx(open ? %s : %s)' % (
-                json.dumps(menu_open_style(closed)), m.group(1))
+                json.dumps(menu_open_style(closed, delay)), m.group(1))
         src, n = SX_CALL_RE.subn(sub, src)
         notes.append(('menu-style', n))
+        notes.append(('menu-stagger', '%d/5' % seq[0]))
         src = src.replace('aria-hidden="true"', 'aria-hidden={open ? "false" : "true"}')
         src = src.replace('export function %s() {' % name,
                           'export function %s() {\n  const open = useMenuOpen();' % name)
@@ -438,7 +462,7 @@ def main():
             ok = False
     print('interaction wiring:')
     for nm, nts in sorted(interaction_notes.items()):
-        print('  %-14s %s' % (nm, ', '.join('%s=%d' % t for t in nts)))
+        print('  %-14s %s' % (nm, ', '.join('%s=%s' % t for t in nts)))
     manifest['interactions'] = interaction_notes
     # the market-list mains must wire 3 tab chips and 1 search box
     for nm, i in manifest['parts'].items():
@@ -456,9 +480,31 @@ def main():
             if got.get('theme-toggle') != 1 or got.get('menu-toggle') != 1:
                 print('ASSERT FAIL %s: controls not wired %s' % (nm, got))
                 ok = False
-        if i['kind'] == 'menu' and dict(interaction_notes.get(nm, [])).get('menu-style', 0) < 2:
-            print('ASSERT FAIL %s: menu open state missing' % nm)
-            ok = False
+        if i['kind'] == 'menu':
+            got = dict(interaction_notes.get(nm, []))
+            if got.get('menu-style', 0) < 2:
+                print('ASSERT FAIL %s: menu open state missing' % nm)
+                ok = False
+            # A stagger of 0ms on every item is invisible in a screenshot diff:
+            # assert the reference's formula actually reached the markup.
+            if got.get('menu-stagger') != '5/5':
+                print('ASSERT FAIL %s: menu stagger items %s, expected 5/5'
+                      % (nm, got.get('menu-stagger')))
+                ok = False
+            body = (GEN / 'parts' / (nm + '.tsx')).read_text()
+            # Only the OPEN half of each pair carries the stagger; the closed half
+            # is legitimately 0ms (the reference's formula is `open ? 120+70i : 0`).
+            opens = [json.loads(m.group(1)) for m in
+                     re.finditer(r'sx\(open \? ("(?:[^"\\]|\\.)*") :', body)]
+            delays = sorted({int(d) for o in opens
+                             for d in re.findall(r'transition:opacity 500ms ease (\d+)ms', o)})
+            if delays != [120, 190, 260, 330, 400]:
+                print('ASSERT FAIL %s: menu open delays %s, expected 120/190/260/330/400'
+                      % (nm, delays))
+                ok = False
+            if any('visibility 0s linear 500ms' in o for o in opens):
+                print('ASSERT FAIL %s: open state still delays visibility by 500ms' % nm)
+                ok = False
     print('root-absolute asset urls:')
     for p, d in sorted(manifest.get('absolutised', {}).items()):
         print('  %-14s %s' % (p, d))

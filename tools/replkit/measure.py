@@ -65,6 +65,44 @@ class Quiet(http.server.SimpleHTTPRequestHandler):
         pass
 
 
+# A page is settled when nothing is animating AND nothing is still rewriting
+# inline styles. Counting style mutations is what catches the JS timers behind the
+# entrances: those fire long after getAnimations() already reports nothing running,
+# and a capture in between would catch a line mid-cleanup.
+AWAIT_SETTLED = """
+(ms) => {
+  if (!window.__settleMut) {
+    window.__settleMut = 0;
+    window.__settleLast = -1;
+    window.__settleSince = Date.now();
+    new MutationObserver(list => {
+      for (const m of list) if (m.attributeName === 'style') window.__settleMut++;
+    }).observe(document.documentElement,
+               {subtree: true, attributes: true, attributeFilter: ['style', 'class']});
+  }
+  const n = window.__settleMut;
+  const t = Date.now();
+  if (n !== window.__settleLast) { window.__settleLast = n; window.__settleSince = t; return 0; }
+  const running = document.getAnimations().filter(a => a.playState !== 'finished').length;
+  return (running === 0 && (t - window.__settleSince) >= ms) ? 1 : 0;
+}
+"""
+
+
+def await_settled(pg, quiet_ms=700, timeout_s=10.0):
+    """Block until the page stops animating and stops mutating inline styles."""
+    import time
+    t0 = time.time()
+    while time.time() - t0 < timeout_s:
+        try:
+            if pg.evaluate(AWAIT_SETTLED, quiet_ms):
+                return True
+        except Exception:
+            return False
+        pg.wait_for_timeout(100)
+    return False
+
+
 def serve(root):
     handler = functools.partial(Quiet, directory=root)
     httpd = socketserver.TCPServer(('127.0.0.1', 0), handler)
@@ -89,6 +127,9 @@ def main():
     ap.add_argument('--screenshot', default='')
     ap.add_argument('--fullpage', action='store_true')
     ap.add_argument('--freeze', action='store_true')
+    ap.add_argument('--settle', action='store_true',
+                    help='walk the document once so one-shot scroll entrances fire, '
+                         'then return to the top before measuring/capturing')
     args = ap.parse_args()
 
     httpd, port = serve(args.root)
@@ -119,6 +160,35 @@ def main():
             pg.evaluate("document.fonts.ready")
         except Exception:
             pass
+
+        if args.settle:
+            # Step from Python, not from a single JS loop: IntersectionObserver
+            # batches on a frame, so scrolling through the document in one call
+            # would skip every intermediate position and never fire the entrances.
+            doc_h = pg.evaluate('document.documentElement.scrollHeight')
+            step = max(120, args.height // 2)
+            y = 0
+            while y < doc_h:
+                pg.evaluate('window.scrollTo(0, %d)' % y)
+                pg.wait_for_timeout(120)
+                y += step
+            pg.evaluate('window.scrollTo(0, %d)' % doc_h)
+            await_settled(pg)
+            pg.evaluate('window.scrollTo(0, 0)')
+            # Lenis keeps animating toward its own target, so a single scrollTo(0,0)
+            # can be pulled back before the next measurement -- which would silently
+            # shift every viewport-relative rect. Poll until it is really at zero.
+            for _ in range(40):
+                if pg.evaluate('window.scrollY') == 0:
+                    break
+                pg.evaluate('window.scrollTo(0, 0)')
+                pg.wait_for_timeout(100)
+            # Settle AGAIN. The walk scrolled the whole document, and parts of
+            # this page derive state from scroll position (the "How it works"
+            # stage, the counters). Without this the measurement samples whatever
+            # state the walk left behind rather than the state seen at the top.
+            await_settled(pg)
+            pg.wait_for_timeout(400)
         out = pg.evaluate(MEASURE_JS, [args.variant])
         if args.screenshot:
             pg.screenshot(path=args.screenshot, full_page=args.fullpage)

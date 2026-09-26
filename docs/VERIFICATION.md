@@ -55,7 +55,7 @@ run from scratch. The resulting tree was byte-identical to the locally verified 
 across **all 128 non-lockfile paths**, and the produced bundle hash matched
 (`assets/index-fWyyhYVU.js`).
 
-## Tier 1 — pixel (strict)
+## Tier 1 — pixel (strict) — *measured before the motion pass; superseded below*
 
 Element geometry, computed styles, and full-page pixels against the offline copy of
 the captured DOM. `dpr=1`, animations frozen.
@@ -72,6 +72,39 @@ the captured DOM. `dpr=1`, animations frozen.
 | `/list-token` | 1440 | light | 235 | 100% | 100% | **100.00%** | **100.00%** | 1801 = 1801 | **100.000%** (0 px) |
 | `/list-token` | 1440 | dark | 235 | 100% | 100% | **100.00%** | **100.00%** | 1801 = 1801 | **100.000%** (0 px) |
 | `/list-token` | 375 | light | 235 | 100% | 100% | **100.00%** | **100.00%** | 2137 = 2137 | **100.000%** (0 px) |
+
+### Tier 1 refreshed AFTER the motion pass (the shipped build)
+
+The rows above were measured on a build with **no motion**. Turning motion on cannot
+keep them: the frozen reference copy has no JavaScript, so it is a *pre-hydration*
+render, while the port hydrates. Three effects the reference's own code applies on
+mount therefore can no longer match it - see `docs/MOTION.md` section 4.
+
+| Route | Viewport | Theme | differing px | identical | where the difference is |
+|---|---|---|---|---|---|
+| `/` | 1440 | light | 120 508 | 98.608% | 119 009 px = `#clients` active-stage panel (rows 6021-6860); ~1 480 px = rotating header brand mark; **0 px elsewhere** |
+| `/` | 375 | light | 39 429 | 98.739% | same two causes |
+| `/` | 1440 | dark | 120 531 | 98.634% | same |
+| `/` | 375 | dark | 39 453 | 98.262% | same |
+| `/portfolio` | 1440 | light | 296 | 99.959% | 148 px x 2 stitched bands = header brand mark only |
+| `/list-token` | 1440 | light | 296 | 99.959% | identical count, same cause |
+
+Geometry/style for `/` after the counter fix: **99.14%** rects within 0.75px and 98.00%
+styles at 1440 (`99.57%` / `96.72%` at 375), docHeight still identical (9381 / 10207).
+The 12 differing rects are exactly **4 hero-coin elements + 8 `#clients` caption
+elements**; the style residue is those plus masks inside `display:none` responsive
+variants, which can never intersect in the reference either. Mask/pixel numbers for the
+other routes are unaffected except that the header brand mark now rotates everywhere
+(hence 296 px on `/portfolio` and `/list-token`).
+
+Motion is verified *behaviourally* instead: `tools/verify_motion.py` (22 checks) and
+`tools/verify_counters.py` (6 checks). See `docs/MOTION.md`.
+
+> One defect was found only after this pass, and is fixed: the stat counters animated
+> `0 -> n` and then **snapped back to 0** (the port restored a snapshot taken after
+> zeroing the column). The pixel baseline holds the correct digit, so no diff pointed at
+> it. `tools/verify_counters.py` now guards exactly this. See `docs/MOTION.md` section 3.
+
 
 The reference has one extra element on every route: a trailing framework
 `<script>` with a 0x0 box. It is dropped by design (see `docs/PORT.md`).

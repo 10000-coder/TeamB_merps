@@ -134,6 +134,10 @@ def geom(ctx, page, width, theme):
         args = [sys.executable, os.path.join(HERE, 'measure.py'), '--root', root, '--path', path,
                 '--out', out, '--width', str(width), '--height', str(height), '--dpr', '1',
                 '--theme', theme, '--variant', variant, '--theme-key', tk, '--freeze']
+        # Walk the document first: the entrances are one-shot, so a static
+        # capture would compare against still-hidden lines.
+        if ctx.cfg.get('settle'):
+            args.append('--settle')
         _, err, rc = sh(args)
         if rc:
             print('%-40s %5d %-5s  MEASURE FAILED  %s' % (page, width, theme, err[-300:]))
@@ -171,9 +175,12 @@ def pixel(ctx, page, width, theme):
     d = os.path.join(TMP, 'd_%s.png' % tag)
     tk = ctx.cfg.get('theme_key', 'theme')
     for root, path, out, variant in ((rroot, rpath, a, rv), (aroot, apath, b, av)):
-        _, err, rc = sh([sys.executable, os.path.join(HERE, 'shoot.py'), '--root', root,
-                         '--path', path, '--width', str(width), '--theme', theme, '--variant',
-                         variant, '--theme-key', tk, '--out', out, '--absolute-bg', '--freeze'])
+        cmd = [sys.executable, os.path.join(HERE, 'shoot.py'), '--root', root,
+               '--path', path, '--width', str(width), '--theme', theme, '--variant',
+               variant, '--theme-key', tk, '--out', out, '--absolute-bg', '--freeze']
+        if ctx.cfg.get('settle'):
+            cmd.append('--settle')
+        _, err, rc = sh(cmd)
         if rc:
             print('%-40s %5d %-5s  SHOOT FAILED  %s' % (page, width, theme, err[-300:]))
             return None
