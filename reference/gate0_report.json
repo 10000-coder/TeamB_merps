@@ -1,0 +1,52 @@
+[
+  {
+    "check": "reference package exists",
+    "status": "PASS",
+    "detail": "/home/daytona/rakazo-home/shared/TeamB_merps/reference"
+  },
+  {
+    "check": "hydrated DOM captured",
+    "status": "PASS",
+    "detail": "site/index.html (212.2 KB)"
+  },
+  {
+    "check": "offline copy renders",
+    "status": "PASS",
+    "detail": "elements=1432 docHeight=9381 docWidth=1440 (need >=200 / >=1200)"
+  },
+  {
+    "check": "offline assets resolve",
+    "status": "PASS",
+    "detail": "6/6 on disk"
+  },
+  {
+    "check": "internal routes captured",
+    "status": "PASS",
+    "detail": "all 5 internal link target(s) covered (7 capture name(s) known)"
+  },
+  {
+    "check": "DATA assets resolve",
+    "status": "PASS",
+    "detail": "12/12 on disk"
+  },
+  {
+    "check": "asset manifest verified",
+    "status": "PASS",
+    "detail": "manifest.json: 34 entries verified, 0 without hash"
+  },
+  {
+    "check": "declared baselines",
+    "status": "PASS",
+    "detail": "4 baseline(s) + 0 in subdirs, e.g. (1440, 9381)"
+  },
+  {
+    "check": "structured data parses",
+    "status": "WARN",
+    "detail": "no data layer at data/ \u2014 confirm the target has no structured content"
+  },
+  {
+    "check": "route inventory explicit",
+    "status": "WARN",
+    "detail": "no routes/ dir \u2014 confirm the target is genuinely single-page"
+  }
+]

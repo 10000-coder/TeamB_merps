@@ -1,0 +1,39 @@
+{
+  "source": "https://www.merps.co/",
+  "offline_copy": "reference/site",
+  "regenerate": [
+    "python3 tools/build_offline.py --ref reference --out reference/site",
+    "bash tools/shoot_baselines.sh"
+  ],
+  "note": "baselines are regenerable byte-identically; not committed to keep the repo small",
+  "baselines": [
+    {
+      "file": "desktop_1440_dark.png",
+      "width": 1440,
+      "height": 9381,
+      "bytes": 766867,
+      "sha256": "566cf516add6c8cbccba371c5b9df11777e9695c8e25d0071ae2ff86ed20d4fd"
+    },
+    {
+      "file": "desktop_1440_light.png",
+      "width": 1440,
+      "height": 9381,
+      "bytes": 765726,
+      "sha256": "bb2268a4b691fd158760cf360558997e1bbc7febc0d995e5c5200af7715b2508"
+    },
+    {
+      "file": "mobile_375_dark.png",
+      "width": 375,
+      "height": 10383,
+      "bytes": 388442,
+      "sha256": "0b5499b7776829a08a5adf7e89e474ce86016b984c3936344cc32e523f2d0f16"
+    },
+    {
+      "file": "mobile_375_light.png",
+      "width": 375,
+      "height": 10383,
+      "bytes": 400766,
+      "sha256": "37d4cd7dc9b79d376e780c240a9670bb5dc67710f47e18e8115b5ff5a721fc0a"
+    }
+  ]
+}
