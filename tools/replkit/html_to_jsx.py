@@ -12,7 +12,8 @@ import os
 import re
 import sys
 
-from bs4 import BeautifulSoup, NavigableString, Tag
+from bs4 import BeautifulSoup, Comment, Doctype, NavigableString, \
+    ProcessingInstruction, Tag
 
 ATTR = {
     'class': 'className', 'for': 'htmlFor', 'tabindex': 'tabIndex',
@@ -29,7 +30,8 @@ ATTR = {
     'srcset': 'srcSet', 'maxlength': 'maxLength', 'readonly': 'readOnly',
     'colspan': 'colSpan', 'rowspan': 'rowSpan', 'contenteditable': 'contentEditable',
 }
-BOOLISH = {'async', 'defer', 'disabled', 'checked', 'selected', 'multiple', 'required', 'hidden'}
+BOOLISH = {'async', 'defer', 'disabled', 'checked', 'selected', 'multiple', 'required',
+           'hidden', 'inert'}
 VOID = {'img', 'br', 'hr', 'input', 'meta', 'link', 'source', 'area', 'base', 'col',
         'embed', 'track', 'wbr', 'path', 'circle', 'rect', 'line', 'polygon', 'polyline',
         'ellipse', 'stop', 'use'}
@@ -56,26 +58,29 @@ def render(node, depth, out, ctx, preserve=False):
     first = True
     for ch in node.children:
         if isinstance(ch, NavigableString):
+            if isinstance(ch, (Comment, Doctype, ProcessingInstruction)):
+                first = False
+                continue
             txt = str(ch)
-            if preserve:
-                # inside <pre>/<textarea> whitespace is content, not formatting
-                if first and txt.startswith('\n'):
-                    txt = txt[1:]
-                if txt:
-                    out.append('%s{%s}' % (pad, json.dumps(txt)))
-                first = False
-                continue
-            if not txt.strip():
-                first = False
-                continue
-            cleaned = re.sub(r'\s+', ' ', txt)
-            if not cleaned.strip():
-                first = False
-                continue
-            out.append('%s{%s}' % (pad, json.dumps(cleaned)))
+            # Emit text VERBATIM, including whitespace-only nodes.
+            #
+            # Collapsing runs and dropping whitespace-only nodes is what produced
+            # "Markets..." where the reference renders "Markets ..." -- the space
+            # lived in a text node next to an SSR comment (`Markets<!-- --> `) and
+            # was silently binned, changing a span's width by ~5px while the
+            # computed styles still matched 100%. The browser applies the same
+            # white-space collapsing to a text node as it did to the original
+            # markup, so verbatim is both faithful and visually correct.
+            if txt:
+                out.append('%s{%s}' % (pad, json.dumps(txt)))
             first = False
         elif isinstance(ch, Tag):
-            out.append('%s%s' % (pad, open_tag(ch, ctx)))
+            tag = open_tag(ch, ctx)
+            if tag.startswith('\x00SLOT\x00'):
+                out.append('%s{%s}' % (pad, tag.split('\x00SLOT\x00', 1)[1]))
+                first = False
+                continue
+            out.append('%s%s' % (pad, tag))
             if ch.name in VOID:
                 out[-1] += ' />'
                 continue
@@ -87,6 +92,8 @@ def render(node, depth, out, ctx, preserve=False):
 
 
 def open_tag(el, ctx):
+    if el.name == 'x-slot':
+        return '\x00SLOT\x00' + (el.get('data-slot') or '')
     attrs = []
     for k, v in el.attrs.items():
         if isinstance(v, list):
@@ -101,6 +108,12 @@ def open_tag(el, ctx):
                 attrs.append('onError={onImgErrorHide}')
             continue
         if k == 'onclick' or k == 'onload':
+            continue
+        if k == 'value' and el.name in ('input', 'textarea', 'select'):
+            attrs.append('defaultValue=%s' % json.dumps(v))   # SSR markup = initial value
+            continue
+        if k == 'checked' and el.name == 'input':
+            attrs.append('defaultChecked')
             continue
         key = ATTR.get(k, k)
         if key == 'className':

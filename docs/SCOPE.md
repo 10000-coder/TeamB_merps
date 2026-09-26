@@ -49,9 +49,13 @@ This is the one surface where "接 GMGN" is real and free — and because it onl
 `referrerPolicy="no-referrer"` copied from the original, along with the original's
 explanatory copy for when the frame comes up blank.
 
-**3. Opt-in live refresh.**
-`?live=1` (or an env flag) switches the market list to fetch DexScreener directly at
-runtime. **Off by default**, so it can never silently break a pixel comparison.
+**3. Opt-in live refresh -- NOT implemented in this build.**
+The plan was a `?live=1` flag switching the market list to fetch DexScreener at
+runtime, off by default. It was dropped rather than half-built: the frozen snapshot
+renders character-for-character against the capture, and a refresh path that no
+command in `docs/VERIFICATION.md` exercises would be untested code sitting on the
+delivery path. Wiring it is a small, self-contained follow-up (DexScreener's token
+endpoint is keyless and CORS-enabled).
 
 **4. Reproduce the original's own empty states — never fabricate.**
 Wallet-gated controls keep their wording and stay disabled. Empty tables stay empty.

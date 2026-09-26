@@ -1,0 +1,22 @@
+{
+  "_comment": "merps.co replication. Captures are flat files; the app uses per-route directories and serves directory-index URLs, so each side names its own files.",
+  "ref_root": "reference/site",
+  "cand_root": "app/dist",
+  "ref_pages": {
+    "/": "/index.html",
+    "/trade": "/trade.html",
+    "/trade/options": "/trade-options.html",
+    "/portfolio": "/portfolio.html",
+    "/list-token": "/list-token.html"
+  },
+  "cand_pages": {
+    "/": "/index.html",
+    "/trade": "/trade/",
+    "/trade/options": "/trade/options/",
+    "/portfolio": "/portfolio/",
+    "/list-token": "/list-token/"
+  },
+  "cand_spa_fallback": false,
+  "theme_key": "merps-theme",
+  "pages": ["/", "/trade", "/trade/options", "/portfolio", "/list-token"]
+}

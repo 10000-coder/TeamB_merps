@@ -92,10 +92,23 @@ class Ctx:
 
     def sides(self, page):
         c = self.cfg
-        rroot, rpath = self.page_path(c['ref_root'], c.get('ref_page', '{page}index.html'),
-                                      page if page != '/' else '/index.html')
-        aroot, apath = self.page_path(self.approot, c.get('cand_page', '{page}index.html'),
-                                      page if page != '/' else '/index.html')
+        # `ref_pages` / `cand_pages` let a project name its files however they are
+        # actually named (flat captures vs per-route directories), instead of the
+        # harness forcing one template on both sides.
+        rmap = c.get('ref_pages') or {}
+        amap = c.get('cand_pages') or {}
+        if page in rmap:
+            rroot, rpath = c['ref_root'], rmap[page]
+        else:
+            rroot, rpath = self.page_path(
+                c['ref_root'], c.get('ref_page', '{page}index.html'),
+                page if page != '/' else '/index.html')
+        if page in amap:
+            aroot, apath = self.approot, amap[page]
+        else:
+            aroot, apath = self.page_path(
+                self.approot, c.get('cand_page', '{page}index.html'),
+                page if page != '/' else '/index.html')
         return rroot, rpath, aroot, apath
 
     def variants(self, page, width, theme):
@@ -179,7 +192,8 @@ def text(ctx, page, width, theme):
     out, err, rc = sh([sys.executable, os.path.join(HERE, 'textdiff.py'),
                        '--ref-root', rroot, '--ref-path', rpath, '--ref-variant', rv,
                        '--cand-root', aroot, '--cand-path', apath, '--cand-variant', av,
-                       '--width', str(width), '--theme', theme, '--theme-key', tk, '--show', '10'])
+                       '--width', str(width), '--theme', theme, '--theme-key', tk, '--show', '10',
+                       '--scope', ctx.cfg.get('text_scope', 'body')])
     print('== text %s %dx%s' % (page, width, theme))
     print(out or err[-400:])
     return out

@@ -65,6 +65,7 @@ def main():
         for u in missing:
             n = html.count(u)
             print(f"    MISSING  {u}   (x{n})")
+    (ROOT / "build").mkdir(parents=True, exist_ok=True)
     (ROOT / "build" / "asset_audit.json").write_text(json.dumps(
         {"missing": all_missing, "found": all_found}, indent=1))
     total = sum(len(v) for v in all_missing.values())

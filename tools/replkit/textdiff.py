@@ -33,12 +33,13 @@ from playwright.sync_api import sync_playwright
 
 DUMP_JS = r"""
 (args) => {
-  const [variant] = args;
+  const [variant, scope] = args;
   if (variant) {
     document.querySelectorAll('.v').forEach(e => { if (!e.matches(variant)) e.remove(); });
   }
   const out = [];
-  const all = document.querySelectorAll('*');
+  const root = (scope && document.querySelector(scope)) || document.documentElement;
+  const all = root.querySelectorAll('*');
   for (const el of all) {
     let own = '';
     for (const n of el.childNodes) {
@@ -77,7 +78,7 @@ def serve(root):
     return httpd, port
 
 
-def dump(root, path, variant, width, theme, theme_key):
+def dump(root, path, variant, width, theme, theme_key, scope='body'):
     httpd, port = serve(root)
     try:
         with sync_playwright() as p:
@@ -91,7 +92,7 @@ def dump(root, path, variant, width, theme, theme_key):
                 pg.evaluate("document.documentElement.setAttribute('data-theme','dark')")
             pg.evaluate("() => document.fonts.ready.catch(()=>{})")
             pg.wait_for_timeout(500)
-            data = pg.evaluate(DUMP_JS, [variant])
+            data = pg.evaluate(DUMP_JS, [variant, scope])
             b.close()
     finally:
         httpd.shutdown()
@@ -115,12 +116,14 @@ def main():
     ap.add_argument('--theme-key', default=os.environ.get('REPLKIT_THEME_KEY', 'theme'))
     ap.add_argument('--json', default='')
     ap.add_argument('--show', type=int, default=20)
+    ap.add_argument('--scope', default='body',
+                help="CSS selector for the subtree to compare; '' = whole document")
     args = ap.parse_args()
 
     ref = dump(args.ref_root, args.ref_path, args.ref_variant, args.width,
-               args.theme, args.theme_key)
+               args.theme, args.theme_key, args.scope)
     cand = dump(args.cand_root, args.cand_path, args.cand_variant, args.width,
-                args.theme, args.theme_key)
+                args.theme, args.theme_key, args.scope)
 
     n = min(len(ref), len(cand))
     same = ws = 0

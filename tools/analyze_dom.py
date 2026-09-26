@@ -78,6 +78,7 @@ def main():
         print(f"\n-- indirect asset refs ({r}) --")
         print(json.dumps(refs, indent=1)[:2500])
         report[r] = {"nodes": len(out), "indirect": refs}
+    (ROOT / "build").mkdir(parents=True, exist_ok=True)
     (ROOT / "build" / "dom_report.json").write_text(json.dumps(report, indent=1))
 
 
